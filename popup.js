@@ -3,10 +3,6 @@ var episodeBrain = angular.module('episodeBrain', []);
 episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
   window.$scope = $scope;
 
-  window.onload = function(){
-    $scope.loadWatchList();
-  };
-
 
 
 
@@ -122,11 +118,11 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
       // alert(url); // Shows "undefined", because chrome.tabs.query is async.
     }
 
-    function isInWatchList(url){
-      for(website in $scope.watchList){
-        if(website.name == url){
-          return true;
-        }
+    $scope.isInWatchList = function(url){
+      for(website in $scope.watchList.websites){
+          if($scope.watchList.websites[website].name == "www.crunchyroll.com"){
+            return true;
+          } 
       }
       return false;
     }
@@ -141,10 +137,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
       });
     }
 
-    function addToWatchList(url){
-
-    }
-
     $scope.saveChanges = function () {
         chrome.storage.sync.set({'watchList': $scope.watchList}, function() {
           console.log('Settings saved');
@@ -152,23 +144,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
       
     }
 
-    function getEpisodeFromPage(){
-      var strings = $("h1,h2");
-
-      strings.each(function(idx){
-        var content = strings[idx].innerHTML;
-
-        if(content.includes("episode")){
-          return content;
-        }
-      });
-
-      return false;
-    }
-
-    function startCounter(){
-
-    }
 
     function getCleanURL(fullUrl){
       var cleanURL = fullUrl.split("/"); 
@@ -183,6 +158,38 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
       });
     }
 
+
+    window.onload = function(){
+      $scope.loadWatchList();
+    };
+
+    $scope.addEpisode = function(){
+      var strings = $("h1,h2");
+
+      strings.each(function(idx){
+        var content = strings[idx].text();
+
+        if(content.includes("episode")){
+          console.log(content);
+        }
+      });
+
+      //console.log("nothing found dude");
+    }
+
+
+    $scope.checkUrl = function(){
+      getCurrentTabUrl(function(url) {
+          var cleanURL = getCleanURL(url);
+
+          if($scope.isInWatchList(cleanURL)){
+            console.log("counting down...");
+            setTimeout($scope.addEpisode(), "5000"/*300000*/);
+        
+          }
+
+      });
+    } 
 
     //document.addEventListener('DOMContentLoaded', function() {
     //});
