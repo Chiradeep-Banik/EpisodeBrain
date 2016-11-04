@@ -1,0 +1,80 @@
+html, body{
+	height:172px;
+	width:250px;
+}
+
+
+body {
+font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+font-size: 100%;
+background-color: #f8f8f8;
+}
+
+hr{
+	margin-top:10px !important;
+	margin-bottom:10px !important;
+}
+
+
+#status {
+/* avoid an excessively wide status text */
+white-space: pre;
+text-overflow: ellipsis;
+overflow: hidden;
+max-width: 400px;
+}
+
+#add-icon{
+	background-image:url('chrome-extension://images/add.png');
+}
+
+.listing{
+	margin-left:10px;
+}
+
+
+
+.add{
+	height: 20px;
+    text-align: -webkit-center;
+
+    background-color: #ffffff;
+}
+
+.add-button{
+	float: right;
+    margin-bottom: 10px !important;
+    margin-right: 10px;
+    border-radius: 30px !important;
+}
+
+.btn-success{
+	background-color: #3cba66 !important;
+}
+
+.header{
+	position: relative;
+	height:40px;
+	width:250px;
+	margin-left: 9px;
+    margin-top: 5px;
+}
+
+.show-listing{
+	margin-left:10px;
+}
+
+.copyright-name{
+	width: 200px;
+    line-height: 2.5em;
+    padding-left: 10px;
+}
+
+.footer{
+	display:inline-flex;
+}
+
+.glyphicon{
+	height:20px;
+	width:20px;
+}
