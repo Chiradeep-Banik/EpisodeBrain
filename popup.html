@@ -1,5 +1,5 @@
 
-<html ng-app="episodeBrain">
+<html ng-app="episodeBrain" ng-csp>
   <head>
     <title>EpisodeBrain</title>
     <link rel="stylesheet" type="text/css" href="popup.css">
@@ -10,7 +10,7 @@
     <script src="jquery-3.1.1.min.js"></script>
 
   </head>
-  <body ng-controller="episodeBrainController">
+  <body id="bodyTag" ng-controller="episodeBrainController">
 
 
     <div class="header">
@@ -27,7 +27,16 @@
           <b>{{website.name}}</b>
         </span>
         <div ng-repeat="show in website.shows">
-          <span class="show-listing">{{show.name}}: {{show.episode}}</span>
+
+          <span class="show-listing">
+
+          {{show.name}}: 
+
+          <a ng-href="{{show.url}}">
+            {{show.episode}}
+          </a>
+
+          </span>
 
         </div>
         <hr>

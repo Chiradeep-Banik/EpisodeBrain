@@ -1,10 +1,35 @@
 var episodeBrain = angular.module('episodeBrain', []);
 
+var document_ = document;
+
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.action == "acquired_DOM"){
+
+      var display_h1 = function(results){
+        console.log(results);
+        //document.querySelector("#id1").innerHTML = "<p>tab title: " + tab_title + "</p><p>dom h1: " + h1 + "</p>";
+      }
+
+
+      chrome.tabs.query({active: true}, function(tabs) {
+        var tab = tabs[0];
+        tab_title = tab.title;
+        chrome.tabs.executeScript(tab.id, {
+          code: 'document.querySelector("h1").textContent'
+        }, display_h1());
+      });
+    }
+});
+
+
 episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
-  window.$scope = $scope;
+    window.$scope = $scope;
 
-
-
+    window.onload = function(){
+      $scope.loadWatchList();
+    };
 
 
     /*var episodeBrain = {
@@ -15,6 +40,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
                   "0" : {
                     "name": "Naruto Shippuden",
                     "episode": "Episode 24"
+                    "url": "http://www.crunchyroll.com/dragon-ball-super/episode-63-dont-disrespect-saiyan-cells-vegetas-heroic-battle-begins-722895"
                   },
                   "1" : {
                     "name": "Dragon Ball Z",
@@ -39,21 +65,15 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
     };*/
 
 
-
-
-    $scope.watchList = {};
-
-
-
     $scope.addWebsite = function(){
       getCurrentTabUrl(function(url) {
         var currentURL = url;
         var addButton = $("#add");
         var website = {};
 
-          var cleanURL = getCleanURL(currentURL);
+          var cleanURL = $scope.getCleanURL(currentURL);
 
-          if(!isInWatchList(cleanURL)){
+          if(!$scope.isInWatchList(cleanURL)){
 
             website["name"] = cleanURL;
 
@@ -79,6 +99,66 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
     }
 
 
+    
+
+    $scope.isInWatchList = function(url){
+      for(website in $scope.watchList.websites){
+          if($scope.watchList.websites[website].name == url){
+            return true;
+          } 
+      }
+      return false;
+    }
+
+    $scope.loadWatchList = function(){
+      chrome.storage.sync.get('watchList', function (result) {
+          if(typeof result.watchList == String){
+            result.watchList = JSON.parse(result.watchList);
+          }
+          if(result.watchList == undefined){
+            result.watchList = {};
+          }
+          $scope.watchList = result.watchList;
+          $scope.$apply();
+      });
+    }
+
+    $scope.saveChanges = function () {
+        chrome.storage.sync.set({'watchList': $scope.watchList}, function() {
+          console.log('Settings saved');
+        });
+      
+    }
+
+
+    function isSelectedWebsite(){
+      getCurrentTabUrl(function(url){
+        var currentURL = getCleanURL(url);
+         console.log(watchList.indexOf(currentURL) > -1);
+      });
+    }
+
+    $scope.getCleanURL = function(fullUrl){
+      var cleanURL = fullUrl.split("/"); 
+
+      return cleanURL[2];
+
+    }
+
+
+    $scope.addEpisode = function(){
+      var strings = $("h1,h2");
+
+      strings.each(function(idx){
+        var content = strings[idx].text();
+
+        if(content.includes("episode")){
+          console.log(content);
+        }
+      });
+
+      //console.log("nothing found dude");
+    }
     function getCurrentTabUrl(callback) {
       // Query filter to be passed to chrome.tabs.query - see
       // https://developer.chrome.com/extensions/tabs#method-query
@@ -107,89 +187,16 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
 
         callback(url);
       });
-
-      // Most methods of the Chrome extension APIs are asynchronous. This means that
-      // you CANNOT do something like this:
-      //
-      // var url;
-      // chrome.tabs.query(queryInfo, function(tabs) {
-      //   url = tabs[0].url;
-      // });
-      // alert(url); // Shows "undefined", because chrome.tabs.query is async.
-    }
-
-    $scope.isInWatchList = function(url){
-      for(website in $scope.watchList.websites){
-          if($scope.watchList.websites[website].name == "www.crunchyroll.com"){
-            return true;
-          } 
-      }
-      return false;
-    }
-
-    $scope.loadWatchList = function(){
-      chrome.storage.sync.get('watchList', function (result) {
-          if(typeof result.watchList == String){
-            result.watchList = JSON.parse(result.watchList);
-          }
-          $scope.watchList = result.watchList;
-          $scope.$apply();
-      });
-    }
-
-    $scope.saveChanges = function () {
-        chrome.storage.sync.set({'watchList': $scope.watchList}, function() {
-          console.log('Settings saved');
-        });
-      
     }
 
 
-    function getCleanURL(fullUrl){
-      var cleanURL = fullUrl.split("/"); 
-
-      return cleanURL[2];
-    }
-
-    function isSelectedWebsite(){
-      getCurrentTabUrl(function(url){
-        var currentURL = getCleanURL(url);
-         console.log(watchList.indexOf(currentURL) > -1);
-      });
-    }
 
 
-    window.onload = function(){
-      $scope.loadWatchList();
-    };
-
-    $scope.addEpisode = function(){
-      var strings = $("h1,h2");
-
-      strings.each(function(idx){
-        var content = strings[idx].text();
-
-        if(content.includes("episode")){
-          console.log(content);
-        }
-      });
-
-      //console.log("nothing found dude");
-    }
 
 
-    $scope.checkUrl = function(){
-      getCurrentTabUrl(function(url) {
-          var cleanURL = getCleanURL(url);
 
-          if($scope.isInWatchList(cleanURL)){
-            console.log("counting down...");
-            setTimeout($scope.addEpisode(), "5000"/*300000*/);
-        
-          }
 
-      });
-    } 
+
 
     //document.addEventListener('DOMContentLoaded', function() {
     //});
