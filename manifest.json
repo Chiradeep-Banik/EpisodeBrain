@@ -7,7 +7,7 @@
   "icons": { "128": "images/icon.png" },
   "web_accessible_resources": ["icon.png"],
   "background": {
-    "scripts": ["angular.js", "jquery-3.1.1.min.js", "background.js"], 
+    "scripts": ["angular.js", "jquery-3.1.1.min.js",  "background.js"], 
     //"page": "background.html",
     "persistent": false
   },
@@ -27,10 +27,10 @@
     [
         {
             "matches":["http://*/*"],
-            "js":["jquery-3.1.1.min.js", "angular.js", "popup.js"],
+            "js":["jquery-3.1.1.min.js", "angular.js", "popup.js", "domgrabber.js"],
             "run_at": "document_end"
         }
     ],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 
 }

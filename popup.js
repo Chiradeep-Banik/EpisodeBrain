@@ -1,27 +1,32 @@
 var episodeBrain = angular.module('episodeBrain', []);
 
-var document_ = document;
+var watchList = {};
 
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.action == "acquired_DOM"){
-
-      var display_h1 = function(results){
-        console.log(results);
-        //document.querySelector("#id1").innerHTML = "<p>tab title: " + tab_title + "</p><p>dom h1: " + h1 + "</p>";
-      }
 
 
-      chrome.tabs.query({active: true}, function(tabs) {
-        var tab = tabs[0];
-        tab_title = tab.title;
-        chrome.tabs.executeScript(tab.id, {
-          code: 'document.querySelector("h1").textContent'
-        }, display_h1());
-      });
-    }
-});
+
+
+
+// chrome.runtime.onMessage.addListener(
+//   function(request, sender, sendResponse) {
+
+//           console.log("this works");
+
+//     if (request.action == "get_DOM"){
+
+
+//       chrome.tabs.executeScript(null, {
+//         file: "domgrabber.js"
+//       }, function() {
+//         // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+//         if (chrome.runtime.lastError) {
+//           message.innerText = 'There was an error injecting script : \n' + chrome.runtime.lastError.message;
+//         }
+//       });
+
+//     }
+// });
 
 
 episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
