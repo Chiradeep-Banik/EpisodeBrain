@@ -55,16 +55,64 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
 });
 
 function findAndAddShow(elDom){
-      console.log("counting down...");
+	getCurrentTabUrl(function(url){
+				var cleanURL = getCleanURL(url);
+
+		console.log("counting down...");
       setTimeout(function(){
       	//Find H1, H2 elements and parse text
         
-      	console.log(elDom.querySelectorAll("h1, h2"));
+      	var potentialTitles = elDom.querySelectorAll("h1, h2");
+
+      	potentialTitles.forEach(function(index){
+
+			if(index.innerText.includes("Episode")){
+
+				var episodeContext = {};
+				var text = index.innerText;
+
+
+				var episodeName = text.match("(?:(?!Episode).)*")[0];
+				var episodeNumber = text.match("\\Episode(\\s\\d+)")[0];
+
+				console.log("You're watching " + episodeName+", and you're on " + episodeNumber);
+
+				episodeContext.name = episodeName;
+				episodeContext.episode = episodeNumber;
+				episodeContext.url = url;
+
+				if(watchList.websites[cleanURL].shows == undefined){
+					watchList.websites[cleanURL].shows = {};
+
+				}
+
+				watchList.websites[cleanURL].shows[episodeName] = episodeContext;
+
+
+		        chrome.storage.sync.set({'watchList': watchList}, function() {
+		          console.log('Settings saved');
+		        });
+				
+
+
+
+
+			} else {
+			
+				console.log("Doesn't say anything about episodes up in here " + index.innerHTML);
+			
+			}
+
+		});
 
 
 
 
       }, "5000"/*300000*/);
+
+
+
+	});
 }
 
 function parseDOM(preDOM){

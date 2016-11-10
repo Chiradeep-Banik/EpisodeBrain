@@ -1,6 +1,8 @@
 var episodeBrain = angular.module('episodeBrain', []);
 
-var watchList = {};
+//var watchList = {};
+
+
 
 
 
@@ -31,12 +33,11 @@ var watchList = {};
 
 episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
     window.$scope = $scope;
-
-    window.onload = function(){
-      $scope.loadWatchList();
-    };
-
-
+  
+   $('body').on('click', 'a', function(){
+     chrome.tabs.create({url: $(this).attr('href')});
+     return false;
+   });
     /*var episodeBrain = {
         "websites": {
             "0" : {
@@ -116,6 +117,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
     }
 
     $scope.loadWatchList = function(){
+
       chrome.storage.sync.get('watchList', function (result) {
           if(typeof result.watchList == String){
             result.watchList = JSON.parse(result.watchList);
@@ -198,7 +200,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
 
 
 
-
+    
+    $scope.loadWatchList();
 
 
 
