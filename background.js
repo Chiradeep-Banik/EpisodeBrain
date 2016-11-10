@@ -8,8 +8,6 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 });
 
 
-
-
 chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
   if (changeInfo.status == 'complete') {
 
@@ -56,9 +54,8 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
 
 function findAndAddShow(elDom){
 	getCurrentTabUrl(function(url){
-				var cleanURL = getCleanURL(url);
+	  var cleanURL = getCleanURL(url);
 
-		console.log("counting down...");
       setTimeout(function(){
       	//Find H1, H2 elements and parse text
         
@@ -71,11 +68,10 @@ function findAndAddShow(elDom){
 				var episodeContext = {};
 				var text = index.innerText;
 
-
-				var episodeName = text.match("(?:(?!Episode).)*")[0];
+				var episodeName = text.trim().match("(?:(?!Episode).)*")[0];
 				var episodeNumber = text.match("\\Episode(\\s\\d+)")[0];
 
-				console.log("You're watching " + episodeName+", and you're on " + episodeNumber);
+				logMessage("EpisodeBrain Log: You're watching " + episodeName+", and you're on " + episodeNumber);
 
 				episodeContext.name = episodeName;
 				episodeContext.episode = episodeNumber;
@@ -88,15 +84,7 @@ function findAndAddShow(elDom){
 
 				watchList.websites[cleanURL].shows[episodeName] = episodeContext;
 
-
-		        chrome.storage.sync.set({'watchList': watchList}, function() {
-		          console.log('Settings saved');
-		        });
-				
-
-
-
-
+				saveSettings(watchList);
 			} else {
 			
 				console.log("Doesn't say anything about episodes up in here " + index.innerHTML);
@@ -115,6 +103,16 @@ function findAndAddShow(elDom){
 	});
 }
 
+function saveSettings(watchList){
+    chrome.storage.sync.set({'watchList': watchList}, function() {
+      console.log('Settings saved');
+    });
+}
+
+function logMessage(message){
+	console.log("EpisodeBrain log: " + message);
+}
+
 function parseDOM(preDOM){
     var parser = new DOMParser()
     var el = parser.parseFromString(preDOM, "text/html");
@@ -127,7 +125,6 @@ function checkUrl(cleanURL){
 
 function getCleanURL(fullUrl){
       var cleanURL = fullUrl.split("/"); 
-
       return cleanURL[2];
 }
 

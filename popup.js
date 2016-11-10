@@ -1,44 +1,21 @@
 var episodeBrain = angular.module('episodeBrain', []);
 
-//var watchList = {};
-
-
-
-
-
-
-
-
-
-// chrome.runtime.onMessage.addListener(
-//   function(request, sender, sendResponse) {
-
-//           console.log("this works");
-
-//     if (request.action == "get_DOM"){
-
-
-//       chrome.tabs.executeScript(null, {
-//         file: "domgrabber.js"
-//       }, function() {
-//         // If you try and inject into an extensions page or the webstore/NTP you'll get an error
-//         if (chrome.runtime.lastError) {
-//           message.innerText = 'There was an error injecting script : \n' + chrome.runtime.lastError.message;
-//         }
-//       });
-
-//     }
-// });
-
-
 episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
     window.$scope = $scope;
   
+   //Let chrome open links from extension
    $('body').on('click', 'a', function(){
      chrome.tabs.create({url: $(this).attr('href')});
      return false;
    });
-    /*var episodeBrain = {
+
+
+    /*
+
+    SAMPLE DATASET 
+    _______________
+
+    var episodeBrain = {
         "websites": {
             "0" : {
                 "name" : "ww7.watchdbz.xyz",
@@ -68,38 +45,40 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
                 }
             }
         }
-    };*/
+    };
+
+
+    */
 
 
     $scope.addWebsite = function(){
       getCurrentTabUrl(function(url) {
+        var website = {};
         var currentURL = url;
         var addButton = $("#add");
-        var website = {};
+        var cleanURL = $scope.getCleanURL(currentURL);
 
-          var cleanURL = $scope.getCleanURL(currentURL);
+        if(!$scope.isInWatchList(cleanURL)){
 
-          if(!$scope.isInWatchList(cleanURL)){
+          website["name"] = cleanURL;
 
-            website["name"] = cleanURL;
-
-            if($scope.watchList.websites == undefined){
-              $scope.watchList.websites = {};
-            }
-
-            $scope.watchList.websites[cleanURL] = website;
-
-            $scope.saveChanges();
-
-            $scope.$apply();
-
-            console.log($scope.watchList);
-
-          } else {
-
-            console.log("Already in watch list!");
-
+          if($scope.watchList.websites == undefined){
+            $scope.watchList.websites = {};
           }
+
+          $scope.watchList.websites[cleanURL] = website;
+
+          $scope.saveChanges();
+
+          $scope.$apply();
+
+          console.log($scope.watchList);
+
+        } else {
+
+          console.log("Already in watch list!");
+
+        }
 
       });
     }
@@ -163,9 +142,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
           console.log(content);
         }
       });
-
-      //console.log("nothing found dude");
     }
+
     function getCurrentTabUrl(callback) {
       // Query filter to be passed to chrome.tabs.query - see
       // https://developer.chrome.com/extensions/tabs#method-query
@@ -197,17 +175,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
     }
 
 
-
-
-
-    
+    //On extension load...
     $scope.loadWatchList();
-
-
-
-
-    //document.addEventListener('DOMContentLoaded', function() {
-    //});
 
 }]);
 
