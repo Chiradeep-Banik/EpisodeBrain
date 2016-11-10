@@ -84,8 +84,10 @@ function findAndAddShow(elDom){
 
 				watchList.websites[cleanURL].shows[episodeName] = episodeContext;
 
-				saveSettings(watchList);
-			} else {
+			    chrome.storage.sync.set({'watchList': watchList}, function() {
+			      console.log('Settings saved');
+			    });
+    			} else {
 			
 				console.log("Doesn't say anything about episodes up in here " + index.innerHTML);
 			
@@ -101,12 +103,6 @@ function findAndAddShow(elDom){
 
 
 	});
-}
-
-function saveSettings(watchList){
-    chrome.storage.sync.set({'watchList': watchList}, function() {
-      console.log('Settings saved');
-    });
 }
 
 function logMessage(message){

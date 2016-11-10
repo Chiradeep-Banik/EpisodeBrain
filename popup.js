@@ -61,6 +61,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
         if(!$scope.isInWatchList(cleanURL)){
 
           website["name"] = cleanURL;
+          website.shows = {};
 
           if($scope.watchList.websites == undefined){
             $scope.watchList.websites = {};
