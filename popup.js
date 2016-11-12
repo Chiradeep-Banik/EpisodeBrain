@@ -5,8 +5,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
   
    //Let chrome open links from extension
    $('body').on('click', 'a', function(){
-     chrome.tabs.create({url: $(this).attr('href')});
-     return false;
+      chrome.tabs.create({url: $(this).attr('href')});
+      return false;
    });
 
 
@@ -143,6 +143,20 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
           console.log(content);
         }
       });
+    }
+
+    $scope.removeShow = function(website, show){
+      var websiteName = website.name;
+      var showName = show.name;
+
+
+      delete $scope.watchList.websites[websiteName].shows[showName];
+
+      $scope.saveChanges();
+
+      $scope.$apply();
+
+
     }
 
     function getCurrentTabUrl(callback) {

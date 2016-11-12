@@ -3,7 +3,7 @@
   <head>
     <title>EpisodeBrain</title>
     <link rel="stylesheet" type="text/css" href="popup.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 
     <script src="jquery-3.1.1.min.js"></script>
     <script src="angular.js"></script>
@@ -28,11 +28,15 @@
         </span>
         <div ng-repeat="show in website.shows">
 
+          <span ng-href="#" class="remove-listing" ng-click="removeShow(website, show)">
+            <a><b>x</b></a>
+          </span>
+
           <span class="show-listing">
 
           {{show.name}} 
 
-          <a ng-href="{{show.url}}">
+          <a id="redirect_url" ng-href="{{show.url}}">
             {{show.episode}}
           </a>
 
@@ -54,7 +58,7 @@
       </div>
 
       <div class="add">
-        <button type="button" ng-click="addWebsite()" id="add" class="btn btn-success add-button">+</button>
+        <button id="add" class="add-button btn btn-success btn-circle" ><img src="images/add.svg" ng-click="addWebsite()"></button>
       </div>
     </div>
 

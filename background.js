@@ -35,6 +35,9 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
 
         //Website is in tracker
         if(isConfirmedURL){
+
+
+
           //Show needs to be added to tracker
           chrome.tabs.executeScript(null, {
             file: "domgrabber.js"
@@ -72,6 +75,9 @@ function findAndAddShow(elDom){
 				var episodeNumber = text.match("\\Episode(\\s\\d+)")[0];
 
 				logMessage("EpisodeBrain Log: You're watching " + episodeName+", and you're on " + episodeNumber);
+
+				if(episodeName == "" || episodeNumber == "")
+					return false;
 
 				episodeContext.name = episodeName;
 				episodeContext.episode = episodeNumber;
