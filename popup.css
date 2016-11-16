@@ -46,7 +46,7 @@ max-width: 400px;
     text-align: center;
 }
 
-.add-button:focus{
+.add-button:focus, .remove-show:focus, .remove-website:focus{
 	outline:0 !important;
 }
 
