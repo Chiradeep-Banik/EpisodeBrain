@@ -71,6 +71,10 @@ function findAndAddShow(elDom){
 				var episodeContext = {};
 				var text = index.innerText;
 
+				if(text.includes("Watch")){
+					text = text.split("Watch")[1];
+				}
+
 				var episodeName = text.trim().match("(?:(?!Episode).)*")[0];
 				var episodeNumber = text.match("\\Episode(\\s\\d+)")[0];
 
