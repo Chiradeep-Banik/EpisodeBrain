@@ -155,8 +155,15 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
       $scope.saveChanges();
 
       $scope.$apply();
+    }
 
+    $scope.removeWebsite = function(website){
+      var websiteName = website.name;
 
+      delete $scope.watchList.websites[websiteName];
+
+      $scope.saveChanges();
+      $scope.$apply();
     }
 
     function getCurrentTabUrl(callback) {

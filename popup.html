@@ -14,7 +14,7 @@
 
 
     <div class="header">
-      <img src="images/header.png">
+      <img class="logo" src="images/header.png">
     </div>
 
     <hr>
@@ -24,12 +24,20 @@
 
       <div class="listing" ng-repeat="website in watchList.websites">
         <span class="website-name">
-          <b>{{website.name}}</b>
+          <b>{{website.name}}
+            <a ng-href="#" class="remove-website" ng-click="removeWebsite(website)">
+                x
+            </a>
+          </b>
         </span>
-        <div ng-repeat="show in website.shows">
+        <div class="row-listing" ng-repeat="show in website.shows">
 
-          <span ng-href="#" class="remove-listing" ng-click="removeShow(website, show)">
-            <a><b>x</b></a>
+          <span ng-href="#" ng-click="removeShow(website, show)">
+            <a class="remove-show">
+              <b>
+                x
+              </b>
+            </a>
           </span>
 
           <span class="show-listing">
@@ -53,10 +61,6 @@
 
 
     <div class="footer">
-      <div class="copyright-name">
-        Rohan Kanjani &copy;
-      </div>
-
       <div class="add">
         <button id="add" class="add-button btn btn-success btn-circle" ><img src="images/add.svg" ng-click="addWebsite()"></button>
       </div>

@@ -40,11 +40,14 @@ max-width: 400px;
 }
 
 .add-button{
-	float: right;
-    margin-bottom: 10px !important;
-    margin-right: 10px;
-    border-radius: 30px !important;
-    background-color: #4a3ac2
+
+    background-color: #4a3ac2;
+    width: 100%;
+    text-align: center;
+}
+
+.add-button:focus{
+	outline:0 !important;
 }
 
 .btn-success{
@@ -52,15 +55,20 @@ max-width: 400px;
 }
 
 .header{
-	position: relative;
-	height:40px;
-	width:250px;
-	margin-left: 9px;
+    position: relative;
+    height: 26px;
+    text-align: center;
+    width: 235px;
     margin-top: 5px;
+}
+
+.logo{
+	width: 160px;
 }
 
 .show-listing{
 	margin-left:10px;
+	font-size: 0.8em;
 }
 
 .copyright-name{
@@ -70,7 +78,7 @@ max-width: 400px;
 }
 
 .footer{
-	display:inline-flex;
+	
 }
 
 .glyphicon{
@@ -78,6 +86,21 @@ max-width: 400px;
 	width:20px;
 }
 
-.remove-listing{
-	color:red;
+.remove-website{
+	float:right;
+	margin-right:10px;
+}
+
+.remove-show, .remove-website{
+	color:#ff7f7f !important;
+}
+
+.remove-show:hover, .remove-website:hover{
+	color:#FF0000 !important;
+	 text-decoration: none;
+	 cursor: pointer;
+}
+
+.row-listing{
+	font-size:1em;
 }

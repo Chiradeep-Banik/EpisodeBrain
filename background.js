@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
   if (changeInfo.status == 'complete') {
 
-    if(watchList.websites == undefined){
+    //if(watchList.websites == undefined){
       chrome.storage.sync.get('watchList', function (result) {
           if(typeof result.watchList == String){
             result.watchList = JSON.parse(result.watchList);
@@ -23,7 +23,7 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
           }
           watchList = result.watchList;
       });
-    }
+    //}
 
   
 
@@ -74,7 +74,7 @@ function findAndAddShow(elDom){
 				var episodeName = text.trim().match("(?:(?!Episode).)*")[0];
 				var episodeNumber = text.match("\\Episode(\\s\\d+)")[0];
 
-				logMessage("EpisodeBrain Log: You're watching " + episodeName+", and you're on " + episodeNumber);
+				logMessage("EpisodeBrain Log: You're watching " + episodeName +", and you're on " + episodeNumber);
 
 				if(episodeName == "" || episodeNumber == "")
 					return false;
