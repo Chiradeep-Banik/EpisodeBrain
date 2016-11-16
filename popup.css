@@ -25,12 +25,6 @@ max-width: 400px;
 }
 
 
-.listing{
-	margin-left:10px;
-}
-
-
-
 .add{
 	height: 20px;
     text-align: -webkit-center;
@@ -103,4 +97,8 @@ max-width: 400px;
 
 .row-listing{
 	font-size:1em;
+}
+
+.row-listing, .website-name{
+	padding-left: 10px;
 }

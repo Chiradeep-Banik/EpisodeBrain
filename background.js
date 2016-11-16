@@ -62,7 +62,7 @@ function findAndAddShow(elDom){
       setTimeout(function(){
       	//Find H1, H2 elements and parse text
         
-      	var potentialTitles = elDom.querySelectorAll("h1, h2");
+      	var potentialTitles = elDom.querySelectorAll("h1, h2, title");
 
       	potentialTitles.forEach(function(index){
 
@@ -76,7 +76,7 @@ function findAndAddShow(elDom){
 				}
 
 				var episodeName = text.trim().match("(?:(?!Episode).)*")[0];
-				var episodeNumber = text.match("\\Episode(\\s\\d+)")[0];
+				var episodeNumber = text.match("\\Episode(\:?)(\\s\\d+)")[0];
 
 				logMessage("EpisodeBrain Log: You're watching " + episodeName +", and you're on " + episodeNumber);
 
