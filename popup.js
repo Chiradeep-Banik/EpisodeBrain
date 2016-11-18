@@ -1,6 +1,9 @@
-var episodeBrain = angular.module('episodeBrain', []);
+var episodeBrain = angular.module('episodeBrain', ['xeditable']);
 
-episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
+
+
+
+episodeBrain.controller('episodeBrainController', ['$scope', '$window', function($scope, $window) {
     window.$scope = $scope;
   
    //Let chrome open links from extension
@@ -83,7 +86,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
 
       });
     }
-
 
     
 
@@ -200,6 +202,14 @@ episodeBrain.controller('episodeBrainController', ['$scope', function($scope) {
     //On extension load...
     $scope.loadWatchList();
 
+    $window.onbeforeunload = function(evt) {
+      console.log("hi");
+    }
+
 }]);
 
 
+episodeBrain.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; 
+
+});

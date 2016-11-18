@@ -102,3 +102,15 @@ max-width: 400px;
 .row-listing, .website-name{
 	padding-left: 10px;
 }
+
+.edit-name{
+	border:none;
+	width:160px;
+}
+
+.editable-click, a.editable-click, .editable-click, a.editable-click{
+	color:#000 !important;
+	border-bottom: none !important;
+	text-decoration: none !important;
+	font-style: normal;
+}
