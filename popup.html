@@ -25,10 +25,11 @@
     <div class="bodyspace">
 
       <div class="listing" ng-repeat="website in watchList.websites">
-        <span class="website-name" editable-text="website.betterName" 
+        <span class="website-name">
+            <span editable-text="website.betterName" 
              e-placeholder="Enter name"
-             e-formclass="edit-name">
-            <span><b>{{website.betterName || website.name}}</b></span>
+             e-formclass="edit-name" 
+             onaftersave="saveChanges()"><b>{{website.betterName || website.name}}</b></span>
     
             <a ng-href="#" class="remove-website" ng-click="removeWebsite(website)">
                 x
