@@ -85,14 +85,20 @@ max-width: 400px;
 	margin-right:10px;
 }
 
+
 .remove-show, .remove-website{
 	color:#ff7f7f !important;
+	font-style: normal !important;
+	text-decoration: none !important;
+	cursor: pointer !important;
 }
 
 .remove-show:hover, .remove-website:hover{
 	color:#FF0000 !important;
-	 text-decoration: none;
-	 cursor: pointer;
+	text-decoration: none !important;
+	cursor: pointer !important;
+	font-style: normal !important;
+
 }
 
 .row-listing{

@@ -44,7 +44,7 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
           }, function() {
             // If you try and inject into an extensions page or the webstore/NTP you'll get an error
             if (chrome.runtime.lastError) {
-              log('There was an error injecting script : \n' + chrome.runtime.lastError.message);
+              logMessage('There was an error injecting script : \n' + chrome.runtime.lastError.message);
             }
           });
         }
@@ -71,12 +71,15 @@ function findAndAddShow(elDom){
 				var episodeContext = {};
 				var text = index.innerText;
 
-				if(text.includes("Watch")){
-					text = text.split("Watch")[1];
-				}
+        //TODO: FIX
+				// if(text.includes("Watch")){
+				// 	text = text.split("Watch")[1];
+				// }
 
 				var episodeName = text.trim().match("(?:(?!Episode).)*")[0];
-				var episodeNumber = text.match("\\Episode(\:?)(\\s\\d+)")[0];
+				var episodeNumber = text.match("\\Episode(\\:?)(\\s\\d+)")[0];
+
+
 
 				logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
 
@@ -108,7 +111,7 @@ function findAndAddShow(elDom){
 
 
 
-      }, "5000"/*300000*/);
+      }, "10000");
 
 
 
