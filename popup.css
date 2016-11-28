@@ -120,3 +120,7 @@ max-width: 400px;
 	text-decoration: none !important;
 	font-style: normal;
 }
+
+.editable-buttons > .btn{
+	padding:0 !important;
+}
