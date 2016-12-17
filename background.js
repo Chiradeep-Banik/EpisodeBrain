@@ -62,55 +62,94 @@ function findAndAddShow(elDom){
       setTimeout(function(){
       	//Find H1, H2 elements and parse text
         
-      	var potentialTitles = elDom.querySelectorAll("h1, h2, title");
+        	var potentialTitles = elDom.querySelectorAll("h1, h2, title");
 
-      	potentialTitles.forEach(function(index){
+        	for(index in potentialTitles){
+            var episodeContext = {};
+            var titleText = potentialTitles[index].innerText;
+      			
+            if(titleText && titleText.includes("Episode")){
 
-			if(index.innerText.includes("Episode")){
+      				var text = potentialTitles[index].innerText;
 
-				var episodeContext = {};
-				var text = index.innerText;
+              //TODO: REMOVE WATCH FROM EPISODE TITLE
+      				// if(text.includes("Watch")){
+      				// 	text = text.split("Watch")[1];
+      				// }
 
-        //TODO: FIX
-				// if(text.includes("Watch")){
-				// 	text = text.split("Watch")[1];
-				// }
-
-				var episodeName = text.trim().match("(?:(?!Episode).)*")[0];
-				var episodeNumber = text.match("\\Episode(\\:?)(\\s\\d+)")[0];
-
-
-
-				logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
-
-				if(episodeName == "" || episodeNumber == "")
-					return false;
-
-				episodeContext.name = episodeName;
-				episodeContext.episode = episodeNumber;
-				episodeContext.url = url;
-
-				if(watchList.websites[cleanURL].shows == undefined){
-					watchList.websites[cleanURL].shows = {};
-
-				}
-
-				watchList.websites[cleanURL].shows[episodeName] = episodeContext;
-
-			    chrome.storage.sync.set({'watchList': watchList}, function() {
-			      console.log('Settings saved');
-			    });
-    			} else {
-			
-				console.log("Doesn't say anything about episodes up in here " + index.innerHTML);
-			
-			}
-
-		});
+      				var episodeName = text.trim().match("[^Watch](?:(?!Episode).)*")[0];
+      				var episodeNumber = text.match("\\Episode(\\:?)(\\s\\d+)")[0];
 
 
+              //Episode found easily (traditionally)
+      				if(episodeName != "" && episodeNumber != ""){
+                  logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
+                  
+
+                  episodeContext.name = episodeName;
+                  episodeContext.episode = episodeNumber;
+                  episodeContext.url = url;
+
+                  if(watchList.websites[cleanURL].shows == undefined){
+                    watchList.websites[cleanURL].shows = {};
+
+                  }
+
+                  watchList.websites[cleanURL].shows[episodeName] = episodeContext;
+
+                  chrome.storage.sync.set({'watchList': watchList}, function() {
+                    console.log('Settings saved');
+                  });
+
+                  return true;
+      			  }
 
 
+             } else {
+                
+                  logMessage("No mention of episode context: " + index.innerHTML);
+             }
+
+  		  }
+
+
+        logMessage("Need to investigate further...");
+
+        //Alternative Approach
+        if(elDom.querySelector("video") != null){
+            for(index in potentialTitles){
+                  var episodeContext = {};
+                  var text = potentialTitles[index].innerText;
+                  //User is watching a video
+                  episodeName = text.match("(?:[^Watch].*(?=\\s\\-))")[0].trim();
+                  episodeNumber = elDom.querySelector(".episode-item.active").innerText.trim();
+
+                  if(episodeName != "" && episodeNumber != ""){
+                      logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
+                      
+
+                      episodeContext.name = episodeName;
+                      episodeContext.episode = episodeNumber;
+                      episodeContext.url = url;
+
+                      if(watchList.websites[cleanURL].shows == undefined){
+                        watchList.websites[cleanURL].shows = {};
+
+                      }
+
+                      watchList.websites[cleanURL].shows[episodeName] = episodeContext;
+
+                      chrome.storage.sync.set({'watchList': watchList}, function() {
+                        console.log('Settings saved');
+                      });
+
+                      return true;
+                  }
+
+            }
+        }
+
+  
       }, "10000");
 
 

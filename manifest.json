@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "EpisodeBrain",
+  "name": "EpisodeBrain: Anime/TV Show Episode Tracker",
   "description": "Stop worrying about episode numbers and continue enjoying your favourite shows!",
-  "version": "1.21",
+  "version": "1.22",
   "icons": { "128": "images/icon.png" },
   "web_accessible_resources": ["icon.png", "add.svg", "remove.svg", "bower_components/fonts/*.woff2"],
   "background": {
@@ -19,7 +19,9 @@
     "activeTab",
     "https://ajax.googleapis.com/",
     "storage",
-    "tabs"
+    "tabs",
+    "http://*/",
+    "https://*/"
   ],
 
   "content_scripts": 
