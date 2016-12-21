@@ -5,6 +5,8 @@
     <link rel="stylesheet" type="text/css" href="popup.css">
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
 
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
@@ -59,6 +61,19 @@
         <hr>
       </div>
 
+      <div class="getting-started" ng-if="isEmpty()">
+        <u>Getting Started</u>
+        <br>
+        1. Browse to your streaming website.
+        <br>
+        2. Click the add button.
+        <br>
+        3. That's it!
+        <br>
+        <br>
+        Next time your watching a show on that website, we'll find out and keep track of it right here!
+        <br>
+      </div>
       
 
     </div>

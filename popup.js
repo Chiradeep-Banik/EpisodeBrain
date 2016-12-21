@@ -168,6 +168,10 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
       $scope.$apply();
     }
 
+    $scope.isEmpty = function(){
+      return angular.equals($scope.watchList.websites, {});
+    }
+
     function getCurrentTabUrl(callback) {
       // Query filter to be passed to chrome.tabs.query - see
       // https://developer.chrome.com/extensions/tabs#method-query
