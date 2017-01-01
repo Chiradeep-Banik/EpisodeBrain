@@ -112,6 +112,10 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
       });
     }
 
+
+    $scope.loadWatchList();
+
+
     $scope.saveChanges = function () {
         chrome.storage.sync.set({'watchList': $scope.watchList}, function() {
           console.log('Settings saved');
@@ -169,7 +173,9 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
     }
 
     $scope.isEmpty = function(){
-      return angular.equals($scope.watchList.websites, {});
+      if($scope.watchList){
+        return angular.equals($scope.watchList.websites, {});
+      }
     }
 
     function getCurrentTabUrl(callback) {
@@ -204,11 +210,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
 
 
     //On extension load...
-    $scope.loadWatchList();
-
-    $window.onbeforeunload = function(evt) {
-      console.log("hi");
-    }
+    //$scope.loadWatchList();
 
 }]);
 
