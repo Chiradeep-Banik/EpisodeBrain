@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="popup.css">
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <link href="bower_components/ionicons/css/ionicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 
 
@@ -32,19 +33,18 @@
              e-placeholder="Enter name"
              e-formclass="edit-name" 
              onaftersave="saveChanges()"><b>{{website.betterName || website.name}}</b></span>
+
+            <span class="edit ion-edit" ng-if="!editing" ng-click="changeEditState(true)"></span>
+            <img class="done" ng-if="editing" ng-click="changeEditState(false)" src="images/done.svg">
+
+
     
-            <a ng-href="#" class="remove-website" ng-click="removeWebsite(website)">
-                x
-            </a>
+            <img class="remove-website" ng-if="editing" ng-click="removeWebsite(website)" src="images/remove.svg">
         </span>
         <div class="row-listing" ng-repeat="show in website.shows">
 
-          <span ng-href="#" ng-click="removeShow(website, show)">
-            <a class="remove-show">
-              <b>
-                -
-              </b>
-            </a>
+          <span ng-href="#" ng-click="removeShow(website, show)" ng-if="editing">
+            <img class="remove-show" src="images/remove.svg">
           </span>
 
           <span class="show-listing">
