@@ -34,16 +34,16 @@
              e-formclass="edit-name" 
              onaftersave="saveChanges()"><b>{{website.betterName || website.name}}</b></span>
 
-            <span class="edit ion-edit" ng-if="!editing" ng-click="changeEditState(true)"></span>
-            <img class="done" ng-if="editing" ng-click="changeEditState(false)" src="images/done.svg">
+            <span class="edit ion-edit" ng-if="!website.editing" ng-click="changeEditState(true, website.name)"></span>
+            <img class="done" ng-if="website.editing" ng-click="changeEditState(false, website.name)" src="images/done.svg">
 
 
     
-            <img class="remove-website" ng-if="editing" ng-click="removeWebsite(website)" src="images/remove.svg">
+            <img class="remove-website" ng-if="website.editing" ng-click="removeWebsite(website)" src="images/remove.svg">
         </span>
         <div class="row-listing" ng-repeat="show in website.shows">
 
-          <span ng-href="#" ng-click="removeShow(website, show)" ng-if="editing">
+          <span ng-href="#" ng-click="removeShow(website, show)" ng-if="website.editing">
             <img class="remove-show" src="images/remove.svg">
           </span>
 

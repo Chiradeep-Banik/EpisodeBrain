@@ -178,8 +178,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
       }
     }
 
-    $scope.changeEditState = function(newState){
-      $scope.editing = newState;
+    $scope.changeEditState = function(newState, website){
+      $scope.watchList.websites[website].editing = newState;
     }
 
     function getCurrentTabUrl(callback) {
