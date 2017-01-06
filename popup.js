@@ -180,7 +180,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
 
     $scope.changeEditState = function(newState, website){
       $scope.watchList.websites[website].editing = newState;
-    }
+    };
 
     function getCurrentTabUrl(callback) {
       // Query filter to be passed to chrome.tabs.query - see
