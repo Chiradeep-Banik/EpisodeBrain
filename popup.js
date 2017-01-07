@@ -1,8 +1,5 @@
 var episodeBrain = angular.module('episodeBrain', ['xeditable']);
 
-
-
-
 episodeBrain.controller('episodeBrainController', ['$scope', '$window', function($scope, $window) {
     window.$scope = $scope;
   
@@ -32,7 +29,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
                     "name": "Dragon Ball Z",
                     "episode": "Episode 30"
                   }
-                }
+                },
+                "editing": true
             },
             "1" : {
                 "name" : "www.crunchyroll.com",
@@ -45,7 +43,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
                     "name": "7 Deadly Sins",
                     "episode": "Episode 300"
                   }
-                }
+                },
+                "editing": true
             }
         }
     };
@@ -120,7 +119,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
         chrome.storage.sync.set({'watchList': $scope.watchList}, function() {
           console.log('Settings saved');
         });
-      
     }
 
 
@@ -135,7 +133,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
       var cleanURL = fullUrl.split("/"); 
 
       return cleanURL[2];
-
     }
 
 
@@ -154,7 +151,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
     $scope.removeShow = function(website, show){
       var websiteName = website.name;
       var showName = show.name;
-
 
       delete $scope.watchList.websites[websiteName].shows[showName];
 
