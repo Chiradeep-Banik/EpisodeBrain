@@ -121,14 +121,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
         });
     }
 
-
-    function isSelectedWebsite(){
-      getCurrentTabUrl(function(url){
-        var currentURL = getCleanURL(url);
-         console.log(watchList.indexOf(currentURL) > -1);
-      });
-    }
-
     $scope.getCleanURL = function(fullUrl){
       var cleanURL = fullUrl.split("/"); 
 
