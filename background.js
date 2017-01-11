@@ -98,7 +98,7 @@ function findAndAddShow(elDom){
                   watchList.websites[cleanURL].shows[episodeName] = episodeContext;
 
                   chrome.storage.sync.set({'watchList': watchList}, function() {
-                    console.log('Settings saved');
+                    logMessage('Settings saved');
                   });
 
                   return true;
@@ -140,7 +140,7 @@ function findAndAddShow(elDom){
                       watchList.websites[cleanURL].shows[episodeName] = episodeContext;
 
                       chrome.storage.sync.set({'watchList': watchList}, function() {
-                        console.log('Settings saved');
+                        logMessage('Settings saved');
                       });
 
                       return true;
