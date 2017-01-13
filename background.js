@@ -71,12 +71,6 @@ function findAndAddShow(elDom){
             if(titleText && titleText.includes("Episode")){
 
       				var text = potentialTitles[index].innerText;
-
-              //TODO: REMOVE WATCH FROM EPISODE TITLE
-      				// if(text.includes("Watch")){
-      				// 	text = text.split("Watch")[1];
-      				// }
-
       				var episodeName = text.trim().match("[^Watch](?:(?!Episode).)*")[0];
       				var episodeNumber = text.match("\\Episode(\\:?)(\\s\\d+)")[0];
 
