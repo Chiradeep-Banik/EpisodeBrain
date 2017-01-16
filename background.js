@@ -36,8 +36,6 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
         //Website is in tracker
         if(isConfirmedURL){
 
-
-
           //Show needs to be added to tracker
           chrome.tabs.executeScript(null, {
             file: "domgrabber.js"
@@ -64,96 +62,109 @@ function findAndAddShow(elDom){
         
         	var potentialTitles = elDom.querySelectorAll("h1, h2, title");
 
-        	for(index in potentialTitles){
-            var episodeContext = {};
-            var titleText = potentialTitles[index].innerText;
-      			
-            if(titleText && titleText.includes("Episode")){
+          switch (cleanURL){
 
-      				var text = potentialTitles[index].innerText;
-      				var episodeName = text.trim().match("[^Watch](?:(?!Episode).)*")[0];
-      				var episodeNumber = text.match("\\Episode(\\:?)(\\s\\d+)")[0];
+            case "vumoo.li":
+              var episodeName = elDom.querySelector(".movie_title > span").innerText;
+              var episodeNumber = elDom.querySelector("li:not(.hidden) > span.season-info:not(.air-date)").innerText;
 
+              saveShow(episodeName, episodeNumber, url, cleanURL);
+            break;
 
-              //Episode found easily (traditionally)
-      				if(episodeName != "" && episodeNumber != ""){
-                  logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
-                  
+            case "niter.co":
+              var titleText = elDom.querySelector("title").innerText.trim();
+              var episodeName = titleText.match("[^Watch ](?:(?! \\dx\\d (?![^Online])).)*")[0];
+              var seasonInfo = titleText.match("(\\d+)(?:x)(\\d+)");
+              var episodeNumber = "Season " + seasonInfo[1] + " Episode " + seasonInfo[2];
 
-                  episodeContext.name = episodeName;
-                  episodeContext.episode = episodeNumber;
-                  episodeContext.url = url;
+              saveShow(episodeName, episodeNumber, url, cleanURL);
+            break;
 
-                  if(watchList.websites[cleanURL].shows == undefined){
-                    watchList.websites[cleanURL].shows = {};
+            case "solarmovie.sc":
+              var titleText = elDom.querySelector("li.active > span").innerText.trim();
+              var episodeName = titleText.match(".*(?= \-)")[0];
+              var seasonInfo = titleText.match("Season\\s\\d+")[0];
+              var episodeInfo = elDom.querySelector(".episode-item.active").innerText.trim().match("Episode\\s\\d+")[0];
 
-                  }
+              var episodeNumber = seasonInfo + " " + episodeInfo;
 
-                  watchList.websites[cleanURL].shows[episodeName] = episodeContext;
+              saveShow(episodeName, episodeNumber, url, cleanURL);
+            break;
 
-                  chrome.storage.sync.set({'watchList': watchList}, function() {
-                    logMessage('Settings saved');
-                  });
+            default:
+              var potentialTitles = elDom.querySelectorAll("h1, h2, title");
 
-                  return true;
-      			  }
-
-
-             } else {
-                
-                  logMessage("No mention of episode context: " + index.innerHTML);
-             }
-
-  		  }
-
-
-        logMessage("Need to investigate further...");
-
-        //Alternative Approach
-        if(elDom.querySelector("video") != null){
-            for(index in potentialTitles){
+              for(index in potentialTitles){
                   var episodeContext = {};
-                  var text = potentialTitles[index].innerText;
-                  //User is watching a video
-                  episodeName = text.match("(?:[^Watch].*(?=\\s\\-))")[0].trim();
-                  episodeNumber = elDom.querySelector(".episode-item.active").innerText.trim();
+                  var titleText = potentialTitles[index].innerText;
+                  
+                  if(titleText && titleText.includes("Episode")){
 
-                  if(episodeName != "" && episodeNumber != ""){
-                      logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
-                      
+                    var text = potentialTitles[index].innerText;
+                    var episodeName = text.trim().match("[^Watch](?:(?!Episode).)*")[0];
+                    var episodeNumber = text.match("\\Episode(\\:?)(\\s\\d+)")[0];
 
-                      episodeContext.name = episodeName;
-                      episodeContext.episode = episodeNumber;
-                      episodeContext.url = url;
+                    saveShow(episodeName, episodeNumber, url, cleanURL);
+                    return true;
 
-                      if(watchList.websites[cleanURL].shows == undefined){
-                        watchList.websites[cleanURL].shows = {};
+                   } else {
+                        logMessage("No mention of episode context: " + index.innerHTML);
+                   }
+              }
+  		      
 
-                      }
+              logMessage("Need to investigate further...");
 
-                      watchList.websites[cleanURL].shows[episodeName] = episodeContext;
+              //Alternative Approach
+              if(elDom.querySelector("video") != null){
+                  for(index in potentialTitles){
+                        var episodeContext = {};
+                        var text = potentialTitles[index].innerText;
+                        //User is watching a video
+                        episodeName = text.match("(?:[^Watch].*(?=\\s\\-))")[0].trim();
+                        episodeNumber = elDom.querySelector(".episode-item.active").innerText.trim();
 
-                      chrome.storage.sync.set({'watchList': watchList}, function() {
-                        logMessage('Settings saved');
-                      });
-
-                      return true;
+                        saveShow(episodeName, episodeNumber, url, cleanURL);
+                        return true;
+                        
                   }
+              }
+            } 
 
-            }
-        }
-
-  
-      }, "10000");
+      }, "5000");
 
 
 
 	});
 }
 
+function saveShow(episodeName, episodeNumber, url, cleanURL){
+  if(episodeName != "" && episodeNumber != ""){
+    logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
+
+    var episodeContext = {};
+
+    episodeContext.name = episodeName;
+    episodeContext.episode = episodeNumber;
+    episodeContext.url = url;
+
+    if(watchList.websites[cleanURL].shows == undefined){
+      watchList.websites[cleanURL].shows = {};
+    }
+
+    watchList.websites[cleanURL].shows[episodeName] = episodeContext;
+
+    chrome.storage.sync.set({'watchList': watchList}, function() {
+      logMessage('Settings saved');
+    });
+  }
+}
+
+
 function logMessage(message){
 	console.log("EpisodeBrain log: " + message);
 }
+
 
 function parseDOM(preDOM){
     var parser = new DOMParser()

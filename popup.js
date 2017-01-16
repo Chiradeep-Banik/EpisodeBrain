@@ -209,5 +209,6 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
 
 episodeBrain.run(function(editableOptions) {
   editableOptions.theme = 'bs3'; 
+  editableOptions.submitButtonTitle = "Save"
 
 });

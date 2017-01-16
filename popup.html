@@ -22,29 +22,31 @@
       <img class="logo" src="images/header.png">
     </div>
 
-    <hr>
+      <!--REMOVE DEVELOPMENT TAG-->
 
+        DEV
+
+      <!-- -->
+
+    <hr>
 
     <div class="bodyspace">
 
       <div class="listing" ng-repeat="website in watchList.websites">
         <span class="website-name">
             <span editable-text="website.betterName" 
-             e-placeholder="Enter name"
+             e-placeholder="Rename website"
              e-formclass="edit-name" 
              onaftersave="saveChanges()"><b>{{website.betterName || website.name}}</b></span>
 
-            <span class="edit ion-edit" ng-if="!website.editing" ng-click="changeEditState(true, website.name)"></span>
-            <img class="done" ng-if="website.editing" ng-click="changeEditState(false, website.name)" src="images/done.svg">
-
-
-    
-            <img class="remove-website" ng-if="website.editing" ng-click="removeWebsite(website)" src="images/remove.svg">
+            <img class="edit" ng-if="!website.editing" ng-click="changeEditState(true, website.name)" src="images/edit.png"></img>
+            <img class="done" ng-if="website.editing" ng-click="changeEditState(false, website.name)" src="images/done.png">
+            <img class="remove-website" ng-if="website.editing" ng-click="removeWebsite(website)" src="images/remove.png">
         </span>
         <div class="row-listing" ng-repeat="show in website.shows">
 
           <span ng-href="#" ng-click="removeShow(website, show)" ng-if="website.editing">
-            <img class="remove-show" src="images/remove.svg">
+            <img class="remove-show" src="images/remove.png">
           </span>
 
           <span class="show-listing">

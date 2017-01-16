@@ -138,6 +138,33 @@ max-width: 400px;
 	font-style: normal;
 }
 
+.editable-has-buttons.editable-input.form-control{
+	height: 22px;
+    width: 143px;
+}
+
+
+.editable-buttons > .btn {
+	color:#000;
+    background-color: #fff !important;
+    border-color: #fff !important;
+    text-decoration: none !important;
+}
+
+.editable-buttons > .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #fff !important;
+    border-color: #fff !important;
+    text-decoration: none !important;
+    color:#000;
+}
+
+.editable-buttons > .btn-default:hover, .btn-default:focus, .btn-default:active {
+    background-color: #fff !important;
+    border-color: #fff !important;
+    text-decoration: none !important;
+    color:#000;
+}
+
 .editable-buttons > .btn{
 	padding:0 !important;
 }
