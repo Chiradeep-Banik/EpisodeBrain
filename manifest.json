@@ -3,7 +3,7 @@
 
   "name": "EpisodeBrain: Anime/TV Show Episode Tracker",
   "description": "Stop worrying about episode numbers and continue enjoying your favourite shows!",
-  "version": "1.60",
+  "version": "1.80",
   "icons": { "128": "images/icon.png" },
   "web_accessible_resources": ["icon.png", "add.svg", "remove.svg", "bower_components/fonts/*.woff2"],
   "background": {
