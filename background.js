@@ -10,8 +10,6 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
   if (changeInfo.status == 'complete') {
-
-    //if(watchList.websites == undefined){
       chrome.storage.sync.get('watchList', function (result) {
           if(typeof result.watchList == String){
             result.watchList = JSON.parse(result.watchList);
@@ -23,33 +21,28 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
           }
           watchList = result.watchList;
       });
-    //}
 
-  
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {action: "get_DOM"}, function(response) {
+            var cleanURL = getCleanURL(tabs[0].url);
+            var parsedDOM = parseDOM(response);
+            var isConfirmedURL = checkUrl(cleanURL);
 
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {action: "get_DOM"}, function(response) {
-        var cleanURL = getCleanURL(tabs[0].url);
-        var parsedDOM = parseDOM(response);
-        var isConfirmedURL = checkUrl(cleanURL);
+            //Website is in tracker
+            if(isConfirmedURL){
 
-        //Website is in tracker
-        if(isConfirmedURL){
-
-          //Show needs to be added to tracker
-          chrome.tabs.executeScript(null, {
-            file: "domgrabber.js"
-          }, function() {
-            // If you try and inject into an extensions page or the webstore/NTP you'll get an error
-            if (chrome.runtime.lastError) {
-              logMessage('There was an error injecting script : \n' + chrome.runtime.lastError.message);
+              //Show needs to be added to tracker
+              chrome.tabs.executeScript(null, {
+                file: "domgrabber.js"
+              }, function() {
+                // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+                if (chrome.runtime.lastError) {
+                  logMessage('There was an error injecting script : \n' + chrome.runtime.lastError.message);
+                }
+              });
             }
-          });
-        }
-    });
-  });
-
-
+        });
+      });
   }
 });
 
