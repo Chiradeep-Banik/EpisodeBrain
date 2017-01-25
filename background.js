@@ -119,18 +119,15 @@ function findAndAddShow(elDom){
 
                         saveShow(episodeName, episodeNumber, url, cleanURL);
                         return true;
-                        
                   }
               }
             } 
 
       }, "5000");
-
-
-
 	});
 }
 
+//Adds the show to the watchList
 function saveShow(episodeName, episodeNumber, url, cleanURL){
   if(episodeName != "" && episodeNumber != ""){
     logMessage("You're watching " + episodeName +", and you're on " + episodeNumber);
@@ -158,7 +155,7 @@ function logMessage(message){
 	console.log("EpisodeBrain log: " + message);
 }
 
-
+//Helper method to parse DOM using domgrabber.js
 function parseDOM(preDOM){
     var parser = new DOMParser()
     var el = parser.parseFromString(preDOM, "text/html");
