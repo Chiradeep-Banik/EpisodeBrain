@@ -1,5 +1,5 @@
 html, body{
-	height:10px;
+	height:100px;
 	width:250px;
 }
 
@@ -25,7 +25,8 @@ overflow: hidden;
 max-width: 400px;
 }
 
-#overlay{
+.overlay{
+	display:none;
 	height:100%;
 	width:100%;
 	padding-bottom: 15px;
@@ -38,10 +39,17 @@ max-width: 400px;
 .add{
 	height: 20px;
     text-align: -webkit-center;
-
-
     background-color: #ffffff;
 }
+
+.add-button.green{
+	background-color: #65ce89 !important;
+		margin-left: 105px;
+    /* padding: 10px; */
+    margin-right: 10px;
+    margin-bottom: 11px;
+}
+
 
 .add-button{
 

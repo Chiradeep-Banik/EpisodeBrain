@@ -99,6 +99,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
 
     $scope.loadWatchList = function(){
 
+      $(".overlay").show();
+
       chrome.storage.sync.get('watchList', function (result) {
           if(typeof result.watchList == String){
             result.watchList = JSON.parse(result.watchList);
@@ -108,6 +110,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
           }
           $scope.watchList = result.watchList;
           $scope.$apply();
+          $(".overlay").hide();
       });
     }
 
@@ -168,6 +171,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
 
     $scope.changeEditState = function(newState, website){
       $scope.watchList.websites[website].editing = newState;
+      $scope.saveChanges();
     }
 
     function getCurrentTabUrl(callback) {
