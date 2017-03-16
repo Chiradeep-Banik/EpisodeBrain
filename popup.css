@@ -25,6 +25,15 @@ overflow: hidden;
 max-width: 400px;
 }
 
+#overlay{
+	height:100%;
+	width:100%;
+	padding-bottom: 15px;
+}
+
+#spinner{
+	margin-left: 80px;
+}
 
 .add{
 	height: 20px;
@@ -168,3 +177,4 @@ max-width: 400px;
 .editable-buttons > .btn{
 	padding:0 !important;
 }
+
