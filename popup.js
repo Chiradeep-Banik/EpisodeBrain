@@ -2,7 +2,7 @@ var episodeBrain = angular.module('episodeBrain', ['xeditable']);
 
 episodeBrain.controller('episodeBrainController', ['$scope', '$window', function($scope, $window) {
     window.$scope = $scope;
-  
+
    //Let chrome open links from extension
    $('body').on('click', 'a', function(){
       chrome.tabs.create({url: $(this).attr('href')});
@@ -12,7 +12,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
 
     /*
 
-    SAMPLE DATASET 
+    SAMPLE DATASET
     _______________
 
     var episodeBrain = {
@@ -86,13 +86,13 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
       });
     }
 
-    
+
 
     $scope.isInWatchList = function(url){
       for(website in $scope.watchList.websites){
           if($scope.watchList.websites[website].name == url){
             return true;
-          } 
+          }
       }
       return false;
     }
@@ -125,7 +125,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
     }
 
     $scope.getCleanURL = function(fullUrl){
-      var cleanURL = fullUrl.split("/"); 
+      var cleanURL = fullUrl.split("/");
 
       return cleanURL[2];
     }
@@ -164,9 +164,8 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
     }
 
     $scope.isEmpty = function(){
-      if($scope.watchList){
-        return angular.equals($scope.watchList.websites, {});
-      }
+      return $scope.watchList && (angular.equals($scope.watchList.websites, {}) ||
+        Object.keys($scope.watchList).length === 0 && $scope.watchList.constructor === Object);
     }
 
     $scope.changeEditState = function(newState, website){
@@ -212,7 +211,7 @@ episodeBrain.controller('episodeBrainController', ['$scope', '$window', function
 
 
 episodeBrain.run(function(editableOptions) {
-  editableOptions.theme = 'bs3'; 
+  editableOptions.theme = 'bs3';
   editableOptions.submitButtonTitle = "Save"
 
 });
